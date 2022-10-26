@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "CellManager.h"
 #include <vector>
 
 class ofApp : public ofBaseApp
@@ -26,18 +25,7 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
-	ofShortImage heightmapLowRes;
-	ofShortImage heightmapHighRes;
-	CellManager<4> cellManager{heightmapHighRes, 1600, 256};
 	ofShader shader;
-
-	ofVbo waterVBO;
-
-	const float heightScale = 32;
-	const float resolutionRatio = 32;
-	 
-	ofMesh terrainMesh;
-	ofVbo terrainVBO;
 
 	// Camera position.
 	glm::vec3 cameraPosition = glm::vec3(0, 0, 0);
@@ -54,11 +42,6 @@ private:
 	int lastMouseY = ofGetViewportHeight() / 2;
 
 	// Helper functions.
-	void buildCube(ofVbo& cubeVBO);
-	void buildCircle(ofVbo& circleVBO, int sides);
-	void buildCylinder(ofVbo& cylinderVBO, int sides);
-	void buildSphere(ofVbo& sphereVBO, int subdivTheta, int subdivPhi);
-	void buildMesh(ofMesh &mesh, glm::vec3 pos, float width, float height);
 	float randf(float start, float end);
 
 	// Shader reloading.

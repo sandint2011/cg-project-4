@@ -1,8 +1,9 @@
 #pragma once
 
-#include "ofMain.h"
 #include <vector>
+#include "ofMain.h"
 #include "SceneGraphNode.h"
+#include "Camera.h"
 
 class ofApp : public ofBaseApp
 {
@@ -27,25 +28,26 @@ public:
 
 private:
 	SceneGraphNode root;
+	std::shared_ptr<SceneGraphNode> meshNode;
+
 	ofVboMesh vboMesh;
 	ofShader shader;
 
-	// Camera position.
-	glm::vec3 cameraPosition = glm::vec3(0, 0, 0);
-	glm::vec3 cameraFront = glm::vec3(0, 0, -1);
-	glm::vec3 cameraUp = glm::vec3(0, 1, 0);
-
-	// Camera rotation (direction).
-	glm::vec3 cameraDirection = glm::vec3(0, 0, 0);
-	float cameraPitch = 0; // In radians.
-	float cameraHead = 0; // In radians.
-
-	// Mouse controls.
-	int lastMouseX = ofGetViewportWidth() / 2;
-	int lastMouseY = ofGetViewportHeight() / 2;
-
 	// Helper functions.
 	float randf(float start, float end);
+
+	// Professor's camera.
+	Camera camera{ glm::vec3(0, 0, 2) };
+	glm::vec3 velocity;
+	int prevMouseX = ofGetViewportWidth() / 2;
+	int prevMouseY = ofGetViewportHeight() / 2;
+	float mouseSensitivity = 0.02f;
+	float cameraHead = 0;
+	float cameraPitch = 0;
+	glm::vec3 cameraDirection = glm::vec3(0, 0, 0);
+	glm::vec3 cameraFront = glm::vec3(0, 0, -1);
+	glm::vec3 cameraUp = glm::vec3(0, 1, 0);
+	void updateCameraRotation(float dx, float dy);
 
 	// Shader reloading.
 	bool needsShaderReload = true;

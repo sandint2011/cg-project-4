@@ -180,17 +180,17 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SceneGraphNode.h" />
-    <ClCompile Include="SimpleDrawNode.cpp" />
-    <ClCompile Include="SimpleDrawNode.h" />
     <ClCompile Include="src\CameraMatrices.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\SimpleDrawNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CameraMatrices.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\SceneGraphNode.h" />
+    <ClInclude Include="src\SimpleDrawNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

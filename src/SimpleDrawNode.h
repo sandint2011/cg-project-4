@@ -5,12 +5,14 @@
 class SimpleDrawNode : public SceneGraphNode
 {
 public:
-	SimpleDrawNode(const ofVboMesh& vboMesh, const ofShader& shader);
+	SimpleDrawNode(const ofVboMesh& vboMesh, const ofShader& shader, const glm::vec3 color);
 
 protected:
-	virtual void drawNode(const CameraMatrices& camera, const glm::mat4& model);
+	// Override.
+	void drawNode(const CameraMatrices& camera, const glm::mat4& model);
 
 private:
-	ofVboMesh& vboMesh;
-	ofShader& shader;
+	const ofVboMesh& vboMesh;
+	const ofShader& shader;
+	const glm::vec3 color;
 };

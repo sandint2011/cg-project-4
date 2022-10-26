@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include "SimpleDrawNode.h"
+#include "CameraMatrices.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -11,14 +12,20 @@ void ofApp::setup()
 	ofEnableDepthTest();
 	glEnable(GL_CULL_FACE);
 
-	ofSetBackgroundColor(135, 205, 235, 255);
+	//ofSetBackgroundColor(135, 205, 235, 255);
 
-	// Load vboMesh.
-	// ...
+	// Load mesh and invert its normals.
+	vboMesh.load("torus.ply");
+	vboMesh.flatNormals();
+	for (int i = 0; i < vboMesh.getNumNormals(); i++)
+	{
+		vboMesh.setNormal(i, -vboMesh.getNormal(i));
+	}
 
 	// Setup scene graph.
-	root.childNodes.emplace_back(new SimpleDrawNode(vboMesh, shader));
+	root.childNodes.emplace_back(new SimpleDrawNode(vboMesh, shader, glm::vec3(1, 0.25, 0.75)));
 	root.childNodes.back()->transform = glm::rotate(glm::radians(90.0f), glm::vec3(1, 1, 1));
+	meshNode = root.childNodes.back();
 
 	reloadShaders();
 }
@@ -39,45 +46,28 @@ void ofApp::reloadShaders()
 void ofApp::update()
 {
 	reloadShaders();
+
+	using namespace glm;
+
+	camera.position += mat3(rotate(cameraHead, vec3(0, 1, 0))) * velocity * ofGetLastFrameTime();
+	camera.rotation = (rotate(cameraHead, vec3(0, 1, 0)) * rotate(cameraPitch, vec3(1, 0, 0)));
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	using namespace glm;
+	
 	// Camera settings.
 	const float nearClip = 15;
 	const float farClip = 200;
 
-	const float startFade = farClip * 0.7;
-	const float endFade = farClip * 0.9;
-
 	float aspectRatio = static_cast<float>(ofGetViewportWidth()) / static_cast<float>(ofGetViewportHeight());
 
-	// Movel-view-projection.
-	glm::mat4 model = (
-		glm::scale(glm::vec3(1, 1, 1))
-		);
+	// Calculate view and projection matrices for camera.
+	CameraMatrices cameraMatrices{ camera, aspectRatio, nearClip, farClip };
 
-	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
-	glm::mat4 projection = glm::perspective(glm::radians(90.0f), aspectRatio, nearClip, farClip);
-
-	// Shader drawing.
-	shader.begin();
-
-	// Setup lighting parameters.
-	shader.setUniform3f("lightDirection", normalize(glm::vec3(-1, 1, 1)));
-	shader.setUniform3f("lightColor", glm::vec3(1, 1, 0.9));
-	shader.setUniform3f("ambientColor", glm::vec3(0.1));
-
-	// Pass camera info to shader.
-	shader.setUniform3f("cameraPosition", cameraPosition);
-	shader.setUniform1f("startFade", startFade);
-	shader.setUniform1f("endFade", endFade);
-
-	// Scene graph.
-	root.drawSceneGraph(camera, shader);
-
-	shader.end();
+	root.drawSceneGraph(cameraMatrices);
 }
 
 //--------------------------------------------------------------
@@ -87,8 +77,19 @@ void ofApp::exit()
 }
 
 //--------------------------------------------------------------
+void ofApp::updateCameraRotation(float dx, float dy)
+{
+	using namespace glm;
+	cameraPitch -= dy;
+	cameraPitch = clamp(cameraPitch, radians(-89.0f), radians(89.0f));
+	cameraHead -= dx;
+}
+
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+	using namespace glm;
+
 	if (key == '`')
 	{
 		needsShaderReload = true;
@@ -100,33 +101,33 @@ void ofApp::keyPressed(int key)
 
 	// Forward / backward.
 	if (key == 'w')
-		cameraPosition += cameraFront * cameraSpeed * dt;
+		camera.position += cameraFront * cameraSpeed * dt;
 	else if (key == 'W')
-		cameraPosition += cameraFront * cameraSpeed * sprint * dt;
+		camera.position += cameraFront * cameraSpeed * sprint * dt;
 	if (key == 's')
-		cameraPosition -= cameraFront * cameraSpeed * dt;
+		camera.position -= cameraFront * cameraSpeed * dt;
 	else if (key == 'S')
-		cameraPosition -= cameraFront * cameraSpeed * sprint * dt;
+		camera.position -= cameraFront * cameraSpeed * sprint * dt;
 
 	// Left / right.
 	if (key == 'a')
-		cameraPosition -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
+		camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
 	else if (key == 'A')
-		cameraPosition -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
+		camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
 	if (key == 'd')
-		cameraPosition += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
+		camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
 	else if (key == 'D')
-		cameraPosition += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
+		camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
 
 	// Up / down.
 	if (key == 'q')
-		cameraPosition += cameraUp * cameraSpeed * dt;
+		camera.position += cameraUp * cameraSpeed * dt;
 	else if (key == 'Q')
-		cameraPosition += cameraUp * cameraSpeed * sprint * dt;
+		camera.position += cameraUp * cameraSpeed * sprint * dt;
 	if (key == 'e')
-		cameraPosition -= cameraUp * cameraSpeed * dt;
+		camera.position -= cameraUp * cameraSpeed * dt;
 	else if (key == 'E')
-		cameraPosition -= cameraUp * cameraSpeed * sprint * dt;
+		camera.position -= cameraUp * cameraSpeed * sprint * dt;
 }
 
 //--------------------------------------------------------------
@@ -138,28 +139,19 @@ void ofApp::keyReleased(int key)
 void ofApp::mouseMoved(int x, int y)
 {
 	// Get the mouse's change ins position since last frame.
-	float dx = x - lastMouseX;
-	float dy = y - lastMouseY;
-	lastMouseX = x;
-	lastMouseY = y;
-
-	// Apply sensitivity to mouse movement.
-	const float sensitivity = 0.5f;
-	dx *= sensitivity;
-	dy *= sensitivity;
-
-	// Store camera rotation in radians.
-	cameraHead += glm::radians(dx);
-	cameraPitch += glm::radians(dy);
-
-	// Clamp the pitch.
-	cameraPitch = CLAMP(cameraPitch, glm::radians(-89.0f), glm::radians(89.0f));
+	float dx = (x - prevMouseX);
+	float dy = (y - prevMouseY);
+	prevMouseX = x;
+	prevMouseY = y;
 
 	// Calculate camera direction.
+	cameraDirection;
 	cameraDirection.x = cos(cameraHead - glm::radians(90.0f)) * cos(cameraPitch); // Sutract 90 degrees from head because otherwise 0 radians points at +X instead of -Z like we want.
 	cameraDirection.y = -sin(cameraPitch); // Negative because otherwise we're doing inverted Y and that's gross.
 	cameraDirection.z = sin(cameraHead - glm::radians(90.0f)) * cos(cameraPitch); // Sutract 90 degrees from head because otherwise 0 radians points at +X instead of -Z like we want.
 	cameraFront = glm::normalize(cameraDirection);
+
+	updateCameraRotation(dx * mouseSensitivity, dy * mouseSensitivity);
 }
 
 //--------------------------------------------------------------

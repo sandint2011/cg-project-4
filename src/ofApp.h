@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include <vector>
+#include "SceneGraphNode.h"
 
 class ofApp : public ofBaseApp
 {
@@ -25,6 +26,8 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
+	SceneGraphNode root;
+	ofVboMesh vboMesh;
 	ofShader shader;
 
 	// Camera position.

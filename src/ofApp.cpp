@@ -1,6 +1,7 @@
 #include "ofApp.h"
 #include <vector>
 #include <random>
+#include "SimpleDrawNode.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -12,7 +13,12 @@ void ofApp::setup()
 
 	ofSetBackgroundColor(135, 205, 235, 255);
 
-	// Mesh and VBO setup...
+	// Load vboMesh.
+	// ...
+
+	// Setup scene graph.
+	root.childNodes.emplace_back(new SimpleDrawNode(vboMesh, shader));
+	root.childNodes.back()->transform = glm::rotate(glm::radians(90.0f), glm::vec3(1, 1, 1));
 
 	reloadShaders();
 }
@@ -68,7 +74,8 @@ void ofApp::draw()
 	shader.setUniform1f("startFade", startFade);
 	shader.setUniform1f("endFade", endFade);
 
-	// Draw stuff...
+	// Scene graph.
+	root.drawSceneGraph(camera, shader);
 
 	shader.end();
 }

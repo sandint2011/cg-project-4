@@ -180,10 +180,16 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SceneGraphNode.h" />
+    <ClCompile Include="SimpleDrawNode.cpp" />
+    <ClCompile Include="SimpleDrawNode.h" />
+    <ClCompile Include="src\CameraMatrices.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CameraMatrices.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>

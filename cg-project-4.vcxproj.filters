@@ -7,6 +7,18 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="SceneGraphNode.h">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraMatrices.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleDrawNode.h">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleDrawNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -15,6 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraMatrices.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

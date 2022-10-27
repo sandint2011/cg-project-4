@@ -61,29 +61,13 @@ void ofApp::draw()
 	// Camera settings.
 	const float nearClip = 0.1;
 	const float farClip = 200;
-
 	float aspectRatio = static_cast<float>(ofGetViewportWidth()) / static_cast<float>(ofGetViewportHeight());
 
 	// Calculate view and projection matrices for camera.
 	CameraMatrices cameraMatrices{ camera, aspectRatio, nearClip, farClip };
 
-	// DRAW A RED TORUS USING THE SCENE GRAPH (doesn't work).
+	// Draw the whole scene graph, starting with the root and recursively drawing its children.
 	root.drawSceneGraph(cameraMatrices);
-
-	// DRAW A BLUE TORUS MANUALLY (works fine).
-	mat4 mvp = mat4(cameraMatrices.getProj() * cameraMatrices.getView() * mat4 {translate(vec3(1, 0, 0)) });
-	shader.begin();
-	// Setup lighting parameters.
-	shader.setUniform3f("lightDirection", normalize(vec3(-1, 1, 1)));
-	shader.setUniform3f("lightColor", vec3(1, 1, 0.9));
-	shader.setUniform3f("ambientColor", vec3(0.1));
-	// Set up transforms.
-	shader.setUniformMatrix4f("mvp", mvp);
-	shader.setUniformMatrix3f("normalMatrix", inverse(transpose(mat4{})));
-	// Color and draw.
-	shader.setUniform3f("meshColor", vec3(0.25, 0.25, 1));
-	vboMesh.draw();
-	shader.end();
 }
 
 //--------------------------------------------------------------

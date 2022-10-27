@@ -22,8 +22,8 @@ void ofApp::setup()
 		vboMesh.setNormal(i, -vboMesh.getNormal(i));
 	}
 
-	// Setup scene graph.
-	root.childNodes.emplace_back(new SimpleDrawNode(vboMesh, shader, glm::vec3(1, 0.25, 0.75)));
+	// Add a red torus to the scene graph.
+	root.childNodes.emplace_back(new SimpleDrawNode(vboMesh, shader, glm::vec3(1, 0.25, 0.25)));
 	root.childNodes.back()->transform = glm::rotate(glm::radians(90.0f), glm::vec3(1, 1, 1));
 	meshNode = root.childNodes.back();
 
@@ -59,7 +59,7 @@ void ofApp::draw()
 	using namespace glm;
 	
 	// Camera settings.
-	const float nearClip = 15;
+	const float nearClip = 0.1;
 	const float farClip = 200;
 
 	float aspectRatio = static_cast<float>(ofGetViewportWidth()) / static_cast<float>(ofGetViewportHeight());
@@ -67,7 +67,23 @@ void ofApp::draw()
 	// Calculate view and projection matrices for camera.
 	CameraMatrices cameraMatrices{ camera, aspectRatio, nearClip, farClip };
 
+	// DRAW A RED TORUS USING THE SCENE GRAPH (doesn't work).
 	root.drawSceneGraph(cameraMatrices);
+
+	// DRAW A BLUE TORUS MANUALLY (works fine).
+	mat4 mvp = mat4(cameraMatrices.getProj() * cameraMatrices.getView() * mat4 {translate(vec3(1, 0, 0)) });
+	shader.begin();
+	// Setup lighting parameters.
+	shader.setUniform3f("lightDirection", normalize(vec3(-1, 1, 1)));
+	shader.setUniform3f("lightColor", vec3(1, 1, 0.9));
+	shader.setUniform3f("ambientColor", vec3(0.1));
+	// Set up transforms.
+	shader.setUniformMatrix4f("mvp", mvp);
+	shader.setUniformMatrix3f("normalMatrix", inverse(transpose(mat4{})));
+	// Color and draw.
+	shader.setUniform3f("meshColor", vec3(0.25, 0.25, 1));
+	vboMesh.draw();
+	shader.end();
 }
 
 //--------------------------------------------------------------
@@ -95,39 +111,57 @@ void ofApp::keyPressed(int key)
 		needsShaderReload = true;
 	}
 
-	const float cameraSpeed = 20 * 32;
+	const float cameraSpeed = 20;
 	const float sprint = 5;
 	const float dt = ofGetLastFrameTime();
 
-	// Forward / backward.
-	if (key == 'w')
-		camera.position += cameraFront * cameraSpeed * dt;
-	else if (key == 'W')
-		camera.position += cameraFront * cameraSpeed * sprint * dt;
-	if (key == 's')
-		camera.position -= cameraFront * cameraSpeed * dt;
-	else if (key == 'S')
-		camera.position -= cameraFront * cameraSpeed * sprint * dt;
+	//// Forward / backward.
+	//if (key == 'w')
+	//	camera.position += cameraFront * cameraSpeed * dt;
+	//else if (key == 'W')
+	//	camera.position += cameraFront * cameraSpeed * sprint * dt;
+	//if (key == 's')
+	//	camera.position -= cameraFront * cameraSpeed * dt;
+	//else if (key == 'S')
+	//	camera.position -= cameraFront * cameraSpeed * sprint * dt;
 
-	// Left / right.
-	if (key == 'a')
-		camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
-	else if (key == 'A')
-		camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
-	if (key == 'd')
-		camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
-	else if (key == 'D')
-		camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
+	//// Left / right.
+	//if (key == 'a')
+	//	camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
+	//else if (key == 'A')
+	//	camera.position -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
+	//if (key == 'd')
+	//	camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * dt;
+	//else if (key == 'D')
+	//	camera.position += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed * sprint * dt;
 
-	// Up / down.
-	if (key == 'q')
-		camera.position += cameraUp * cameraSpeed * dt;
-	else if (key == 'Q')
-		camera.position += cameraUp * cameraSpeed * sprint * dt;
-	if (key == 'e')
-		camera.position -= cameraUp * cameraSpeed * dt;
-	else if (key == 'E')
-		camera.position -= cameraUp * cameraSpeed * sprint * dt;
+	//// Up / down.
+	//if (key == 'q')
+	//	camera.position += cameraUp * cameraSpeed * dt;
+	//else if (key == 'Q')
+	//	camera.position += cameraUp * cameraSpeed * sprint * dt;
+	//if (key == 'e')
+	//	camera.position -= cameraUp * cameraSpeed * dt;
+	//else if (key == 'E')
+	//	camera.position -= cameraUp * cameraSpeed * sprint * dt;
+
+	// Move along the x axis.
+	if (key == 'x')
+		camera.position.x += cameraSpeed * dt;
+	else if (key == 'X')
+		camera.position.x -= cameraSpeed * dt;
+
+	// Move along the y axis.
+	if (key == 'y')
+		camera.position.y += cameraSpeed * dt;
+	else if (key == 'Y')
+		camera.position.y -= cameraSpeed * dt;
+
+	// Move along z axis.
+	if (key == 'z')
+		camera.position.z += cameraSpeed * dt;
+	else if (key == 'Z')
+		camera.position.z -= cameraSpeed * dt;
 }
 
 //--------------------------------------------------------------

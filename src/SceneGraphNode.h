@@ -22,7 +22,7 @@ public:
 		this->drawNode(camera, model);
 
 		// Draw child nodes recursively (depth-first).
-		for (const std::shared_ptr<SceneGraphNode> &node : this->childNodes)
+		for (const auto& node : this->childNodes)
 		{
 			node->drawSceneGraph(camera, model);
 		}

@@ -9,7 +9,7 @@ public:
 
 protected:
 	// Override.
-	void drawNode(const CameraMatrices& camera, const glm::mat4& model);
+	void drawNode(const CameraMatrices& camera, const glm::mat4& model) const override;
 
 private:
 	const ofVboMesh& vboMesh;

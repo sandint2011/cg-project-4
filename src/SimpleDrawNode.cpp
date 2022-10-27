@@ -6,7 +6,7 @@ SimpleDrawNode::SimpleDrawNode(const ofVboMesh& vboMesh, const ofShader& shader,
 {
 }
 
-void SimpleDrawNode::drawNode(const CameraMatrices& camera, const glm::mat4& model)
+void SimpleDrawNode::drawNode(const CameraMatrices& camera, const glm::mat4& model) const
 {
 	using namespace glm;
 

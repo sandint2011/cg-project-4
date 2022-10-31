@@ -15,17 +15,17 @@ void ofApp::setup()
 	//ofSetBackgroundColor(135, 205, 235, 255);
 
 	// Load mesh and invert its normals.
-	mesh.load("torus.ply");
-	mesh.flatNormals();
-	for (int i = 0; i < mesh.getNumNormals(); i++)
+	bodyMesh.load("cylinder.ply");
+	bodyMesh.flatNormals();
+	for (int i = 0; i < bodyMesh.getNumNormals(); i++)
 	{
-		mesh.setNormal(i, -mesh.getNormal(i));
+		bodyMesh.setNormal(i, -bodyMesh.getNormal(i));
 	}
 
-	// Add a red torus to the scene graph.
-	root.childNodes.emplace_back(new SimpleDrawNode(mesh, shader));
-	root.childNodes.back()->localTransform = glm::rotate(glm::radians(90.0f), glm::vec3(1, 1, 1));
-	meshNode = root.childNodes.back();
+	// Adds the body to the scene
+	root.childNodes.emplace_back(new SimpleDrawNode(bodyMesh, shader));
+	root.childNodes.back()->localTransform = glm::rotate(glm::radians(-25.0f), glm::vec3(1, 0, 0));
+	bodyMeshNode = root.childNodes.back();
 
 	reloadShaders();
 }

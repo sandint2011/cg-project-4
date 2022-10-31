@@ -28,9 +28,9 @@ public:
 
 private:
 	SceneGraphNode root;
-	std::shared_ptr<SceneGraphNode> meshNode;
+	std::shared_ptr<SceneGraphNode> bodyMeshNode;
 
-	ofMesh mesh;
+	ofMesh bodyMesh;
 	ofShader shader;
 
 	// Helper functions.

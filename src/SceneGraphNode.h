@@ -1,36 +1,57 @@
 #pragma once
 #include "ofMain.h"
-#include "CameraMatrices.h"
 #include <list>
 #include <memory>
+#include "CameraMatrices.h"
 
 struct SceneGraphNode
 {
 public:
-	glm::mat4 transform{};
+    virtual ~SceneGraphNode() {};
 
-	std::list<std::shared_ptr<SceneGraphNode>> childNodes{};
+    void updateSceneGraph(float dt, glm::mat4 globalTransform = {})
+    {
+        // Apply local transform, then global
+        glm::mat4 model { globalTransform * localTransform };
 
-	virtual ~SceneGraphNode() {};
+        // Invoke polymorphic update function
+        this->updateNode(dt, model);
 
-	void drawSceneGraph(const CameraMatrices& camera, const glm::mat4& parentTransform = {})
-	{
-		// Get transform relative to parent transform.
-		glm::mat4 model = parentTransform * transform;
+        for (auto node : this->childNodes)
+        {
+            // Recursively update child nodes
+            // depth-first traversal
+            node->updateSceneGraph(dt, model);
+        }
+    }
 
-		// Draw self.
-		this->drawNode(camera, model);
+    void drawSceneGraph(const CameraMatrices& camera, glm::mat4 globalTransform = {})
+    {
+        // Apply local transform, then global
+        glm::mat4 model { globalTransform * localTransform };
 
-		// Draw child nodes recursively (depth-first).
-		for (const auto& node : this->childNodes)
-		{
-			node->drawSceneGraph(camera, model);
-		}
-	}
+        // Invoke polymorphic draw function
+        this->drawNode(camera, model);
+
+        for (auto node : this->childNodes)
+        {
+            // Recursively drawing child nodes
+            // depth-first traversal
+            node->drawSceneGraph(camera, model);
+        }
+    }
+
+    glm::mat4 localTransform {}; // transformation relative to this node's parent
+
+    // List of pointers to the child nodes of this node.
+    std::list<std::shared_ptr<SceneGraphNode>> childNodes {};
 
 protected:
-	virtual void drawNode(const CameraMatrices& camera, const glm::mat4& model) const
-	{
-		// Extend this class and override this draw function.
-	}
+    virtual void updateNode(float dt, const glm::mat4& model)
+    {
+    }
+
+    virtual void drawNode(const CameraMatrices& camera, const glm::mat4& model) const
+    {
+    }
 };

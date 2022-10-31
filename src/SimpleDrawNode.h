@@ -5,14 +5,16 @@
 class SimpleDrawNode : public SceneGraphNode
 {
 public:
-	SimpleDrawNode(const ofVboMesh& vboMesh, const ofShader& shader, const glm::vec3 color);
+    // Constructor
+    SimpleDrawNode(const ofMesh& mesh, const ofShader& shader);
+
+    // Override the base class's draw function
+    void drawNode(const CameraMatrices& camera, const glm::mat4& model) const;
 
 protected:
-	// Override.
-	void drawNode(const CameraMatrices& camera, const glm::mat4& model) const override;
+    // The mesh to be drawn (reference to the resource's "home")
+    const ofMesh& mesh;
 
-private:
-	const ofVboMesh& vboMesh;
-	const ofShader& shader;
-	const glm::vec3 color;
+    // The shader to use to draw the mesh (reference to the resource's "home")
+    const ofShader& shader;
 };

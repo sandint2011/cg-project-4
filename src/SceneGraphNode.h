@@ -9,6 +9,11 @@ struct SceneGraphNode
 public:
     virtual ~SceneGraphNode() {};
 
+    glm::mat4 localTransform{}; // transformation relative to this node's parent
+
+    // List of pointers to the child nodes of this node.
+    std::list<std::shared_ptr<SceneGraphNode>> childNodes{};
+
     void updateSceneGraph(float dt, glm::mat4 globalTransform = {})
     {
         // Apply local transform, then global
@@ -40,11 +45,6 @@ public:
             node->drawSceneGraph(camera, model);
         }
     }
-
-    glm::mat4 localTransform {}; // transformation relative to this node's parent
-
-    // List of pointers to the child nodes of this node.
-    std::list<std::shared_ptr<SceneGraphNode>> childNodes {};
 
 protected:
     virtual void updateNode(float dt, const glm::mat4& model)

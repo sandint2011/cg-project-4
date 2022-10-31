@@ -4,8 +4,6 @@ in vec3 fragNormal;
 
 out vec4 outColor;
 
-uniform vec3 meshColor;
-
 uniform vec3 lightDirection;
 uniform vec3 lightColor;
 uniform vec3 ambientColor;
@@ -13,6 +11,7 @@ uniform vec3 ambientColor;
 void main()
 {
 	// Color based on normals.
+	vec3 meshColor = fragNormal * 0.5 + 0.5;
 	
 	// Lighting.
 	vec3 normal = normalize(fragNormal);

@@ -30,7 +30,7 @@ private:
 	SceneGraphNode root;
 	std::shared_ptr<SceneGraphNode> meshNode;
 
-	ofVboMesh vboMesh;
+	ofMesh mesh;
 	ofShader shader;
 
 	// Helper functions.

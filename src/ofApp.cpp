@@ -91,6 +91,9 @@ void ofApp::setup()
 	rightFoot = rightLeg->childNodes.back();
 
 	// Add center foot to center leg.
+	centerLeg->childNodes.emplace_back(new SimpleDrawNode(coneMesh, shader));
+	centerLeg->childNodes.back()->localTransform = translate(vec3(0, -0.9, 0)) * rotate(radians(10.0f), vec3(1, 0, 0)) * scale(vec3(4, 0.5, 2));
+	centerFoot = centerLeg->childNodes.back();
 
 	// Add eye box to head.
 

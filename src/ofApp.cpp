@@ -96,8 +96,14 @@ void ofApp::setup()
 	centerFoot = centerLeg->childNodes.back();
 
 	// Add eye box to head.
+	head->childNodes.emplace_back(new SimpleDrawNode(cubeMesh, shader));
+	head->childNodes.back()->localTransform = translate(vec3(0, 0.55, 0.65)) * rotate(radians(-35.0f), vec3(1, 0, 0)) * scale(vec3(0.15, 0.15, 0.15));
+	eyeBox = head->childNodes.back();
 
 	// Add eye to eye box.
+	eyeBox->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
+	eyeBox->childNodes.back()->localTransform = translate(vec3(0, 0, 0.5)) * scale(vec3(0.9, 0.9, 0.9));
+	eye = eyeBox->childNodes.back();
 
 	// Add flaghlight joint to head.
 

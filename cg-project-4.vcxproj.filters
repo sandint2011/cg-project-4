@@ -13,6 +13,15 @@
     <ClCompile Include="src\SimpleDrawNode.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\LitDrawNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleAnimationNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpotLightNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -33,6 +42,27 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\SimpleDrawNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LitDrawNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PointLight.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleAnimationNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpotLight.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpotLightNode.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectionalLight.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lighting.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

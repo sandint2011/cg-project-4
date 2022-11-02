@@ -181,16 +181,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CameraMatrices.cpp" />
+    <ClCompile Include="src\LitDrawNode.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\SimpleAnimationNode.cpp" />
     <ClCompile Include="src\SimpleDrawNode.cpp" />
+    <ClCompile Include="src\SpotLightNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CameraMatrices.h" />
+    <ClInclude Include="src\DirectionalLight.h" />
+    <ClInclude Include="src\Lighting.h" />
+    <ClInclude Include="src\LitDrawNode.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\SceneGraphNode.h" />
+    <ClInclude Include="src\SimpleAnimationNode.h" />
     <ClInclude Include="src\SimpleDrawNode.h" />
+    <ClInclude Include="src\SpotLight.h" />
+    <ClInclude Include="src\SpotLightNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

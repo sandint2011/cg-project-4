@@ -17,11 +17,11 @@ void ofApp::setup()
 	//ofSetBackgroundColor(135, 205, 235, 255);
 
 	// Load cylinder and invert the normals.
-	cylanderMesh.load("cylinder.ply");
-	cylanderMesh.flatNormals();
-	for (int i = 0; i < cylanderMesh.getNumNormals(); i++)
+	cylinderMesh.load("cylinder.ply");
+	cylinderMesh.flatNormals();
+	for (int i = 0; i < cylinderMesh.getNumNormals(); i++)
 	{
-		cylanderMesh.setNormal(i, -cylanderMesh.getNormal(i));
+		cylinderMesh.setNormal(i, -cylinderMesh.getNormal(i));
 	}
 	// Load sphere and invert the normals.
 	sphereMesh.load("sphere.ply");
@@ -46,7 +46,7 @@ void ofApp::setup()
 	}
 
 	// Add body to root.
-	root.childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
+	root.childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
 	root.childNodes.back()->localTransform = rotate(radians(-20.0f), vec3(1, 0, 0));
 	body = root.childNodes.back();
 
@@ -56,12 +56,12 @@ void ofApp::setup()
 	head = body->childNodes.back();
 
 	// Add left shoulder to body.
-	body->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
+	body->childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
 	body->childNodes.back()->localTransform = translate(vec3(-1.1, 0.5, 0)) * rotate(radians(40.0f), vec3(1, 0, 0)) * rotate(radians(90.0f), vec3(0, 0, 1)) * scale(vec3(.35, .1, .35));
 	leftShoulder = body->childNodes.back();
 
 	// Add right shoulder to body.
-	body->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
+	body->childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
 	body->childNodes.back()->localTransform = translate(vec3(1.1, 0.5, 0)) * rotate(radians(40.0f), vec3(1, 0, 0)) * rotate(radians(-90.0f), vec3(0, 0, 1)) * scale(vec3(.35, .1, .35));
 	rightShoulder = body->childNodes.back();
 
@@ -106,8 +106,14 @@ void ofApp::setup()
 	eye = eyeBox->childNodes.back();
 
 	// Add flaghlight joint to head.
+	head->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
+	head->childNodes.back()->localTransform = translate(vec3(0.25, 0.2, 0.85)) * rotate(radians(-35.0f), vec3(1, 0, 0)) * scale(vec3(0.1, 0.1, 0.1));
+	flashlightJoint = head->childNodes.back();
 
 	// Add flashlight to flashlight joint.
+	flashlightJoint->childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
+	flashlightJoint->childNodes.back()->localTransform = translate(vec3(0, 0, 0.75)) * rotate(radians(90.0f), vec3(1, 0, 0)) * scale(vec3(0.6, 0.6, 0.6));
+	flashlight = flashlightJoint->childNodes.back();
 
 	reloadShaders();
 }

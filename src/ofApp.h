@@ -44,7 +44,7 @@ private:
 	std::shared_ptr<SceneGraphNode> flashlightJoint;
 	std::shared_ptr<SceneGraphNode> flashlight;
 
-	ofMesh cylanderMesh;
+	ofMesh cylinderMesh;
 	ofMesh sphereMesh;
 	ofMesh coneMesh;
 	ofMesh cubeMesh;
@@ -55,7 +55,7 @@ private:
 	float randf(float start, float end);
 
 	// Professor's camera.
-	Camera camera{ glm::vec3(0, 0, 2) };
+	Camera camera{ glm::vec3(2, 1.5, 2) };
 	glm::vec3 velocity;
 	int prevMouseX = ofGetViewportWidth() / 2;
 	int prevMouseY = ofGetViewportHeight() / 2;

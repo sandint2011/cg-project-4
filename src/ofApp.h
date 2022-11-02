@@ -28,17 +28,25 @@ public:
 
 private:
 	SceneGraphNode root;
-	std::shared_ptr<SceneGraphNode> bodyMeshNode;
-	std::shared_ptr<SceneGraphNode> headMeshNode;
-	std::shared_ptr<SceneGraphNode> shoulderRightNode;
-	std::shared_ptr<SceneGraphNode> shoulderLeftNode;
-	std::shared_ptr<SceneGraphNode> leftArmNode;
-	std::shared_ptr<SceneGraphNode> rightArmNode;
 
-
+	std::shared_ptr<SceneGraphNode> body;
+	std::shared_ptr<SceneGraphNode> head;
+	std::shared_ptr<SceneGraphNode> leftShoulder;
+	std::shared_ptr<SceneGraphNode> rightShoulder;
+	std::shared_ptr<SceneGraphNode> leftLeg;
+	std::shared_ptr<SceneGraphNode> rightLeg;
+	std::shared_ptr<SceneGraphNode> centerLeg;
+	std::shared_ptr<SceneGraphNode> leftFoot;
+	std::shared_ptr<SceneGraphNode> rightFoot;
+	std::shared_ptr<SceneGraphNode> centerFoot;
+	std::shared_ptr<SceneGraphNode> eyeBox;
+	std::shared_ptr<SceneGraphNode> eye;
+	std::shared_ptr<SceneGraphNode> flashlightJoint;
+	std::shared_ptr<SceneGraphNode> flashlight;
 
 	ofMesh cylanderMesh;
 	ofMesh sphereMesh;
+	ofMesh coneMesh;
 	ofMesh cubeMesh;
 
 	ofShader shader;

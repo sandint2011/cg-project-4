@@ -7,6 +7,8 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	using namespace glm;
+
 	ofDisableArbTex();
 
 	ofEnableDepthTest();
@@ -14,22 +16,28 @@ void ofApp::setup()
 
 	//ofSetBackgroundColor(135, 205, 235, 255);
 
-	// Load mesh and invert its normals.
+	// Load cylinder and invert the normals.
 	cylanderMesh.load("cylinder.ply");
 	cylanderMesh.flatNormals();
 	for (int i = 0; i < cylanderMesh.getNumNormals(); i++)
 	{
 		cylanderMesh.setNormal(i, -cylanderMesh.getNormal(i));
 	}
-
-
+	// Load sphere and invert the normals.
 	sphereMesh.load("sphere.ply");
 	sphereMesh.flatNormals();
 	for (int i = 0; i < sphereMesh.getNumNormals(); i++)
 	{
 		sphereMesh.setNormal(i, -sphereMesh.getNormal(i));
 	}
-
+	// Load cone and invert the normals.
+	coneMesh.load("cone.ply");
+	coneMesh.flatNormals();
+	for (int i = 0; i < coneMesh.getNumNormals(); i++)
+	{
+		coneMesh.setNormal(i, -coneMesh.getNormal(i));
+	}
+	// Load cube and invert the normals.
 	cubeMesh.load("cube.ply");
 	cubeMesh.flatNormals();
 	for (int i = 0; i < cubeMesh.getNumNormals(); i++)
@@ -37,30 +45,60 @@ void ofApp::setup()
 		cubeMesh.setNormal(i, -cubeMesh.getNormal(i));
 	}
 
-	// Adds the body to the scene
+	// Add body to root.
 	root.childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
-	root.childNodes.back()->localTransform = glm::rotate(glm::radians(-25.0f), glm::vec3(1, 0, 0));
-	bodyMeshNode = root.childNodes.back();
+	root.childNodes.back()->localTransform = rotate(radians(-20.0f), vec3(1, 0, 0));
+	body = root.childNodes.back();
 
-	//makes the head
-	bodyMeshNode->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
-	bodyMeshNode->childNodes.back()->localTransform = glm::translate(glm::vec3(0,1,0));
-	headMeshNode = bodyMeshNode->childNodes.back();
+	// Add head to body.
+	body->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
+	body->childNodes.back()->localTransform = translate(vec3(0,1,0));
+	head = body->childNodes.back();
 
-	//make the left shoulder
-	bodyMeshNode->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
-	bodyMeshNode->childNodes.back()->localTransform = glm::translate(glm::vec3(-1.1, .5, 0)) * glm::rotate(glm::radians(90.0f), glm::vec3(0, 0, 1))  * glm::scale(glm::vec3(.3,.1,.3));
-	shoulderLeftNode = bodyMeshNode->childNodes.back();
+	// Add left shoulder to body.
+	body->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
+	body->childNodes.back()->localTransform = translate(vec3(-1.1, 0.5, 0)) * rotate(radians(40.0f), vec3(1, 0, 0)) * rotate(radians(90.0f), vec3(0, 0, 1)) * scale(vec3(.35, .1, .35));
+	leftShoulder = body->childNodes.back();
 
-	// make the right shoulder
-	bodyMeshNode->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
-	bodyMeshNode->childNodes.back()->localTransform = glm::translate(glm::vec3(1.1, .5, 0)) * glm::rotate(glm::radians(-90.0f), glm::vec3(0, 0, 1)) * glm::scale(glm::vec3(.3, .1, .3));
-	shoulderRightNode = bodyMeshNode->childNodes.back();
+	// Add right shoulder to body.
+	body->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
+	body->childNodes.back()->localTransform = translate(vec3(1.1, 0.5, 0)) * rotate(radians(40.0f), vec3(1, 0, 0)) * rotate(radians(-90.0f), vec3(0, 0, 1)) * scale(vec3(.35, .1, .35));
+	rightShoulder = body->childNodes.back();
 
+	// Add left leg to left shoulder.
+	leftShoulder->childNodes.emplace_back(new SimpleDrawNode(cubeMesh, shader));
+	leftShoulder->childNodes.back()->localTransform = translate(vec3(-3, 0, 0)) * scale(vec3(2.75, 1, 0.75));
+	leftLeg = leftShoulder->childNodes.back();
 
-	shoulderLeftNode->childNodes.emplace_back(new SimpleDrawNode(cubeMesh, shader));
-	shoulderLeftNode->childNodes.back()->localTransform = glm::translate(glm::vec3(-2.5, 0, 0)) * glm::scale(glm::vec3(2.5, 1, .75));
-	leftArmNode = shoulderLeftNode->childNodes.back();
+	// Add right leg to right shoulder.
+	rightShoulder->childNodes.emplace_back(new SimpleDrawNode(cubeMesh, shader));
+	rightShoulder->childNodes.back()->localTransform = translate(vec3(3, 0, 0)) * scale(vec3(2.75, 1, 0.75));
+	rightLeg = rightShoulder->childNodes.back();
+
+	// Add center leg to body.
+	body->childNodes.emplace_back(new SimpleDrawNode(cubeMesh, shader));
+	body->childNodes.back()->localTransform = translate(vec3(0, -1.25, 0)) * scale(vec3(0.125, 0.5, 0.25));
+	centerLeg = body->childNodes.back();
+
+	// Add left foot to left arm.
+	leftLeg->childNodes.emplace_back(new SimpleDrawNode(coneMesh, shader));
+	leftLeg->childNodes.back()->localTransform = translate(vec3(-0.9, 0, 0)) * rotate(radians(5.0f), vec3(0, 1, 0)) * rotate(radians(-90.0f), vec3(0, 0, 1)) * scale(vec3(4, 0.5, 2));
+	leftFoot = leftLeg->childNodes.back();
+
+	// Add right foot to right arm.
+	rightLeg->childNodes.emplace_back(new SimpleDrawNode(coneMesh, shader));
+	rightLeg->childNodes.back()->localTransform = translate(vec3(0.9, 0, 0)) * rotate(radians(-5.0f), vec3(0, 1, 0)) * rotate(radians(90.0f), vec3(0, 0, 1)) * scale(vec3(4, 0.5, 2));
+	rightFoot = rightLeg->childNodes.back();
+
+	// Add center foot to center leg.
+
+	// Add eye box to head.
+
+	// Add eye to eye box.
+
+	// Add flaghlight joint to head.
+
+	// Add flashlight to flashlight joint.
 
 	reloadShaders();
 }

@@ -12,3 +12,18 @@ void SimpleAnimationNode::updateNode(float dt, const mat4& model)
     // Update local transform by appending incremental rotation.
     this->localTransform = rotate(rotationSpeed * dt, rotationAxis) * this->localTransform;
 }
+
+
+
+SinAnimationNode::SinAnimationNode(float rotationSpeed, vec3 rotationAxis, float timerScale)
+    : SimpleAnimationNode{ rotationSpeed, rotationAxis }, timerScale{ timerScale }
+{
+
+}
+
+void SinAnimationNode::updateNode(float dt, const mat4& model)
+{
+    timer += dt;
+    // Update local transform by appending incremental rotation.
+    this->localTransform = rotate(rotationSpeed * sin(timer), rotationAxis) * this->localTransform;
+}

@@ -30,6 +30,7 @@ private:
 	SceneGraphNode root;
 
 	std::shared_ptr<SceneGraphNode> body;
+	std::shared_ptr<SceneGraphNode> headAnimation;
 	std::shared_ptr<SceneGraphNode> head;
 	std::shared_ptr<SceneGraphNode> leftShoulder;
 	std::shared_ptr<SceneGraphNode> rightShoulder;
@@ -41,6 +42,7 @@ private:
 	std::shared_ptr<SceneGraphNode> centerFoot;
 	std::shared_ptr<SceneGraphNode> eyeBox;
 	std::shared_ptr<SceneGraphNode> eye;
+	std::shared_ptr<SceneGraphNode> flashlightJointAnimation;
 	std::shared_ptr<SceneGraphNode> flashlightJoint;
 	std::shared_ptr<SceneGraphNode> flashlight;
 

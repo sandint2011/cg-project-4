@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include "SimpleDrawNode.h"
+#include "SimpleAnimationNode.h"
 #include "CameraMatrices.h"
 
 //--------------------------------------------------------------
@@ -43,9 +44,12 @@ void ofApp::setup()
 	bodyMeshNode = root.childNodes.back();
 
 	//makes the head
-	bodyMeshNode->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
+	bodyMeshNode->childNodes.emplace_back(new SimpleAnimationNode(10.0f,glm::vec3(1,0,0)));
 	bodyMeshNode->childNodes.back()->localTransform = glm::translate(glm::vec3(0,1,0));
 	headMeshNode = bodyMeshNode->childNodes.back();
+
+
+
 
 	//make the left shoulder
 	bodyMeshNode->childNodes.emplace_back(new SimpleDrawNode(cylanderMesh, shader));
@@ -86,6 +90,8 @@ void ofApp::update()
 
 	camera.position += mat3(rotate(cameraHead, vec3(0, 1, 0))) * velocity * ofGetLastFrameTime();
 	camera.rotation = (rotate(cameraHead, vec3(0, 1, 0)) * rotate(cameraPitch, vec3(1, 0, 0)));
+
+
 }
 
 //--------------------------------------------------------------

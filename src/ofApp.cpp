@@ -51,12 +51,12 @@ void ofApp::setup()
 	root.childNodes.back()->localTransform = rotate(radians(-20.0f), vec3(1, 0, 0));
 	body = root.childNodes.back();
 
-	body->childNodes.emplace_back(new SinAnimationNode(.01f, glm::vec3(0, 1, 0),1));
+	// Add head animation to body.
+	body->childNodes.emplace_back(new SinAnimationNode(0.01f, glm::vec3(0, 1, 0), 1.0f));
 	body->childNodes.back()->localTransform = translate(vec3(0, 1, 0));
 	headAnimation = body->childNodes.back();
 
-
-	// Add head to body.
+	// Add head to head animation.
 	headAnimation->childNodes.emplace_back(new SimpleDrawNode(sphereMesh,shader));
 	headAnimation->childNodes.back()->localTransform = translate(vec3(0,0,0));
 	head = headAnimation->childNodes.back();
@@ -111,21 +111,20 @@ void ofApp::setup()
 	eyeBox->childNodes.back()->localTransform = translate(vec3(0, 0, 0.5)) * scale(vec3(0.9, 0.9, 0.9));
 	eye = eyeBox->childNodes.back();
 
-
 	// Add flaghlight joint to head.
 	head->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
 	head->childNodes.back()->localTransform = translate(vec3(0.25, 0.2, 0.85)) * rotate(radians(-35.0f), vec3(1, 0, 0)) * scale(vec3(0.1, 0.1, 0.1));
 	flashlightJoint = head->childNodes.back();
 
-	//adds flashlight join animation
-	flashlightJoint->childNodes.emplace_back(new SinAnimationNode(0.015f, vec3(.3,.3,.3),2));
-	flashlightJoint->childNodes.back()->localTransform = translate(vec3(0,0,0));
-	flashlightJointAnimation = flashlightJoint->childNodes.back();
+	// Add flashlight animation to flashlight joint.
+	flashlightJoint->childNodes.emplace_back(new SinAnimationNode(0.03f, vec3(.3,.3,.3), 3.23f));
+	flashlightJoint->childNodes.back()->localTransform = rotate(radians(25.0f), vec3(1, 0, 0));
+	flashlightAnimation = flashlightJoint->childNodes.back();
 
-	// Add flashlight to flashlight joint.
-	flashlightJointAnimation->childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
-	flashlightJointAnimation->childNodes.back()->localTransform = translate(vec3(0, 0, 0.75)) * rotate(radians(90.0f), vec3(1, 0, 0)) * scale(vec3(0.6, 0.6, 0.6));
-	flashlight = flashlightJointAnimation->childNodes.back();
+	// Add flashlight to flashlight animation.
+	flashlightAnimation->childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
+	flashlightAnimation->childNodes.back()->localTransform = translate(vec3(0, 0, 0.75)) * rotate(radians(90.0f), vec3(1, 0, 0)) * scale(vec3(0.6, 0.6, 0.6));
+	flashlight = flashlightAnimation->childNodes.back();
 
 	reloadShaders();
 }

@@ -23,7 +23,7 @@ SinAnimationNode::SinAnimationNode(float rotationSpeed, vec3 rotationAxis, float
 
 void SinAnimationNode::updateNode(float dt, const mat4& model)
 {
-    timer += dt;
+    timer += dt * timerScale;
     // Update local transform by appending incremental rotation.
     this->localTransform = rotate(rotationSpeed * sin(timer), rotationAxis) * this->localTransform;
 }

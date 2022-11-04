@@ -3,9 +3,11 @@
 layout (location = 0) in vec3 position;
 layout (location = 2) in vec3 normal;
 
+// LitDrawNode uniforms.
 uniform mat4 mvp; // Movel-view-projection transform.
-
+uniform mat4 model;
 uniform mat3 normalMatrix;
+
 out vec3 fragNormal;
 
 void main()

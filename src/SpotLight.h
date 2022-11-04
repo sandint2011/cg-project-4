@@ -5,5 +5,5 @@ struct SpotLight : public PointLight
 {
 public:
     glm::vec3 direction;
-    float cutoff;
+    float cutoff = 10.0f;
 };

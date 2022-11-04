@@ -33,6 +33,7 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
+	// Scene nodes...
 	SceneGraphNode root;
 
 	std::shared_ptr<SceneGraphNode> body;
@@ -58,10 +59,20 @@ private:
 	std::shared_ptr<SceneGraphNode> flashlightAnimation;
 	std::shared_ptr<SceneGraphNode> flashlight;
 
+	// Meshes.
 	ofMesh cylinderMesh;
 	ofMesh sphereMesh;
 	ofMesh coneMesh;
 	ofMesh cubeMesh;
+
+	// Lighting.
+	DirectionalLight sceneDirectionalLight {glm::vec3(-1, -1, -1)};
+	SpotLight sceneSpotLight {};
+	Lighting sceneLighting {
+		glm::vec3(0.25, 0.25, 0.25),
+		sceneDirectionalLight,
+		sceneSpotLight
+	};
 
 	ofShader shader;
 

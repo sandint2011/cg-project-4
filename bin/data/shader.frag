@@ -2,26 +2,32 @@
 
 in vec3 fragNormal;
 
-out vec4 outColor;
+// LitDrawNode uniforms.
+uniform vec3 meshColor;
+uniform vec3 ambientColor;
+uniform vec3 dirLightColor;
+uniform vec3 dirLightDir;
+uniform vec3 spotLightColor;
+uniform vec3 spotLightConeDir;
+uniform vec3 spotLightPos;
+uniform vec3 spotLightCutoff;
 
-//uniform vec3 lightDirection;
-//uniform vec3 lightColor;
-//uniform vec3 ambientColor;
+out vec4 outColor;
 
 void main()
 {
 	// Color based on normals.
-	vec3 meshColor = fragNormal * 0.5 + 0.5;
+	//vec3 normalMeshColor = fragNormal * 0.5 + 0.5;
 	
 	// Lighting.
-	//vec3 normal = normalize(fragNormal);
-	//float nDotL = max(0, dot(normal, lightDirection));
+	vec3 normal = normalize(fragNormal);
+	float nDotL = max(0, dot(normal, dirLightDir));
 	// Surface lighting.
-	//vec3 irradiance = ambientColor + lightColor * nDotL;
+	vec3 irradiance = ambientColor + dirLightColor * nDotL;
 	// Surface reflection.
-	//vec3 linearColor = meshColor * irradiance;
+	vec3 linearColor = meshColor * irradiance;
 
 	// Color based on normals, lighting.
-	//outColor = vec4(pow(linearColor, vec3(1.0 / 2.2)), 1.0);
-	outColor = vec4(meshColor,1);
+	outColor = vec4(pow(linearColor, vec3(1.0 / 2.2)), 1.0);
+	//outColor = vec4(meshColor, 1);
 }

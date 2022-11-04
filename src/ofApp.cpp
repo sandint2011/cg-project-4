@@ -3,6 +3,7 @@
 #include <random>
 #include "SimpleDrawNode.h"
 #include "SimpleAnimationNode.h"
+#include "LitDrawNode.h"
 #include "CameraMatrices.h"
 
 //--------------------------------------------------------------
@@ -57,7 +58,7 @@ void ofApp::setup()
 	headAnimation = body->childNodes.back();
 
 	// Add head to head animation.
-	headAnimation->childNodes.emplace_back(new SimpleDrawNode(sphereMesh,shader));
+	headAnimation->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
 	headAnimation->childNodes.back()->localTransform = translate(vec3(0,0,0));
 	head = headAnimation->childNodes.back();
 

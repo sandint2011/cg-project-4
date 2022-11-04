@@ -70,7 +70,7 @@ private:
 	SpotLight sceneSpotLight {};
 	PointLight scenePointLight {};
 	Lighting sceneLighting {
-		glm::vec3(0.25, 0.25, 0.25),
+		glm::vec3(0.05, 0.05, 0.05),
 		sceneDirectionalLight,
 		sceneSpotLight,
 		scenePointLight

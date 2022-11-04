@@ -1,10 +1,15 @@
 #include "ofApp.h"
 #include <vector>
 #include <random>
+#include "CameraMatrices.h"
 #include "SimpleDrawNode.h"
 #include "SimpleAnimationNode.h"
 #include "LitDrawNode.h"
-#include "CameraMatrices.h"
+#include "Lighting.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "SpotLightNode.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()

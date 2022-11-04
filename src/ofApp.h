@@ -2,8 +2,14 @@
 
 #include <vector>
 #include "ofMain.h"
-#include "SceneGraphNode.h"
 #include "Camera.h"
+#include "SceneGraphNode.h"
+#include "LitDrawNode.h"
+#include "Lighting.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "SpotLightNode.h"
 
 class ofApp : public ofBaseApp
 {

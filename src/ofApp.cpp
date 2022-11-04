@@ -55,6 +55,7 @@ void ofApp::setup()
 	// Initialize scene lighting.
 	sceneSpotLight.position = glm::vec3(0, 0, 0);
 	sceneSpotLight.direction = glm::vec3(1, -1, -1);
+	scenePointLight.position = glm::vec3(0, 0, 0);
 
 	// Add body to root.
 	root.childNodes.emplace_back(new LitDrawNode(cylinderMesh, shader, sceneLighting));

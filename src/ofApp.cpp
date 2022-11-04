@@ -57,7 +57,7 @@ void ofApp::setup()
 	sceneSpotLight.direction = glm::vec3(1, -1, -1);
 
 	// Add body to root.
-	root.childNodes.emplace_back(new SimpleDrawNode(cylinderMesh, shader));
+	root.childNodes.emplace_back(new LitDrawNode(cylinderMesh, shader, sceneLighting));
 	root.childNodes.back()->localTransform = rotate(radians(-20.0f), vec3(1, 0, 0));
 	body = root.childNodes.back();
 
@@ -67,7 +67,7 @@ void ofApp::setup()
 	headAnimation = body->childNodes.back();
 
 	// Add head to head animation.
-	headAnimation->childNodes.emplace_back(new LitDrawNode(sphereMesh, shader, sceneLighting));
+	headAnimation->childNodes.emplace_back(new SimpleDrawNode(sphereMesh, shader));
 	headAnimation->childNodes.back()->localTransform = translate(vec3(0,0,0));
 	head = headAnimation->childNodes.back();
 

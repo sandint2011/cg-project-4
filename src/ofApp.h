@@ -69,10 +69,11 @@ private:
 	DirectionalLight sceneDirectionalLight {glm::vec3(-1, -1, -1)};
 	SpotLight sceneSpotLight {};
 	PointLight scenePointLight {};
-	Lighting sceneLighting {
-		glm::vec3(0.025, 0.025, 0.05), // Ambient light.
+	Lighting sceneLighting{
+		glm::vec3(0, 0, 0), // Ambient light.
 		sceneDirectionalLight,
-		sceneSpotLight
+		sceneSpotLight,
+		scenePointLight
 	};
 
 	ofShader shader;

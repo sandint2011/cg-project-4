@@ -17,6 +17,11 @@ uniform vec3 spotLightPos;
 uniform float spotLightCutoff;
 uniform float spotLightIntensity;
 
+uniform vec3 pointLightColor;
+uniform vec3 pointLightPos;
+uniform float pointLightCutoff;
+uniform float pointLightIntensity;
+
 out vec4 outColor;
 
 void main()
@@ -41,6 +46,11 @@ void main()
 		float spotNDotL = max(0, dot(normal, spotLightDir));
 		irradiance += spotLightColor * spotNDotL * spotFalloff * spotLightIntensity;
 	}
+
+	// Add pointlight lighting.
+	vec3 toPointLight = pointLightPos - worldPos;
+	float pointFalloff = (1.0 / dot(toPointLight, toPointLight));
+	irradiance += pointLightColor * pointFalloff * pointLightIntensity;
 
 	// Surface reflection.
 	vec3 linearColor = meshColor * irradiance;

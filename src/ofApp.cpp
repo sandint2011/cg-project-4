@@ -129,7 +129,7 @@ void ofApp::setup()
 
 	// Add flashlight animation to flashlight joint.
 	flashlightJoint->childNodes.emplace_back(new SinAnimationNode(0.02f, vec3(.3,.3,.3), 3.23f));
-	flashlightJoint->childNodes.back()->localTransform = rotate(radians(25.0f), vec3(1, 0, 0));
+	flashlightJoint->childNodes.back()->localTransform = rotate(radians(30.0f), vec3(1, 0, 0));
 	flashlightAnimation = flashlightJoint->childNodes.back();
 
 	// Add flashlight to flashlight animation.

@@ -5,7 +5,7 @@ struct DirectionalLight
 {
 public:
     glm::vec3 direction;
-    glm::vec3 color { 1 };
+    glm::vec3 color { 1, 1, 0.9 };
     float intensity { 1 };
 
     glm::vec3 getDirectionToLight() const

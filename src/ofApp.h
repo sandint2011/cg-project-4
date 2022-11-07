@@ -70,7 +70,7 @@ private:
 	SpotLight sceneSpotLight {};
 	PointLight scenePointLight {};
 	Lighting sceneLighting {
-		glm::vec3(0.05, 0.05, 0.05), // Ambient light.
+		glm::vec3(0.025, 0.025, 0.05), // Ambient light.
 		sceneDirectionalLight,
 		sceneSpotLight
 	};

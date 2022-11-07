@@ -23,6 +23,7 @@ void LitDrawNode::drawNode(const CameraMatrices& camera, const glm::mat4& model)
     shader.setUniform3f("spotLightConeDir", sceneLighting.spotLight.direction);
     shader.setUniform3f("spotLightPos", sceneLighting.spotLight.position);
     shader.setUniform1f("spotLightCutoff", sceneLighting.spotLight.cutoff);
+    shader.setUniform1f("spotLightIntensity", sceneLighting.spotLight.intensity);
     mesh.draw(); // draw mesh
     shader.end(); // done with the shader
 }
